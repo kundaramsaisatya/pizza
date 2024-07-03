@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Orders</title>
+    <%- include('../partials/head') %>
+</head>
+<body>
+    <%- include('../partials/navbar') %>
+    
+   <section class="orders light-section">
+    <div class="container mx-auto px-16 py-10">
+        <h1 class="font-bold text-lg mb-4">All Orders</h1>
+        <% if (success_msg.length>0) { %>
+            <div id="success-alert" class="flex items-center bg-green-500 text-white text-sm font-bold px-4 py-3" role="alert">
+                <p> <%= success_msg %></p>
+            </div>
+        <% } %>
+        <table class="w-full table-auto bg-white">
+            <thead>
+                <th class="px-4 py-2 text-left">Orders</th>
+                <th class="px-4 py-2 text-left">Items</th>
+                <th class="px-4 py-2 text-left">Time</th>
+                <th class="px-4 py-2 text-left">Price</th>
+                <th class="px-4 py-2 text-left">Total Price</th>
+                <th class="px-4 py-2 text-left">Status</th>
+                <th class="px-4 py-2 text-left">Receipt</th>
+            </thead>
+            <tbody>
+                <% if (orders.length) { %>
+                 <% orders.forEach(order => { %>
+                    <tr>
+                        <td class="border px-4 py-2">
+                            <a class="link" href="/customers/orders/<%= order._id  %>"><%= order._id%></a>
+                        </td>
+                        <td class="border px-4 py-2">
+                            <ul>
+                                <% for (let key in order.items) { %>
+                                    <li><%= order.items[key].item.name?order.items[key].item.name: "Item: " + order.items[key].item.item + '\n Size: ' + order.items[key].item.size + "\n Type: " + order.items[key].item.type + "\n Extras: " + order.items[key].item.extras  %> - <%= order.items[key].qty?order.items[key].qty : order.items[key].item.quantity %> pcs</li>
+                                <% } %>
+                            </ul>
+                        </td>
+                        <td class="border px-4 py-2">
+                            <%= moment(order.createdAt).format('hh:mm A') %>
+                         </td>
+                         
+                        <td class="border px-4 py-2">
+                            <ol>
+                                <% let totalPrice = 0; %>
+                                <% for (let key in order.items) { %>
+                                    <% 
+                                        let price = order.items[key].item.price ? order.items[key].item.price : order.items[key].customprice;
+                                        let quantity = order.items[key].qty ? order.items[key].qty : order.items[key].item.quantity;
+                                        totalPrice += price * quantity;
+                                    %>
+                                    <li>₹<%= price %></li>
+                                <% } %>
+                            </ol>
+                        </td>
+                        <td class="border px-4 py-2">₹<%= totalPrice %></td>
+                        
+
+                        <td class="border px-4 py-2"><%= order.status %></td>
+                        
+                        <td class="border px-4 py-2">
+                            <a href="/customers/orders/receipt/<%= order._id %>">Click to download</a>
+                        </td>
+                        
+                    </tr>
+                 <% }) %>
+                
+                
+                <% } else { %>
+                    <tr>
+                        <td class="p-4"><span>No orders found!</span></td>
+                    </tr>
+                    <% } 
+                %>
+            </tbody>
+        </table>
+    </div>
+   </section>
+    
+    <%- include('../partials/script') %>
+</body>
+</html>

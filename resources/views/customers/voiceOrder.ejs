@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Order Speech to JSON</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f7f7f7;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+        }
+
+        h1 {
+            color: #333;
+        }
+
+        button {
+            background-color: #FE5F1E;
+            color: white;
+            padding: 10px 20px;
+            margin: 20px 0;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #b23301;
+        }
+
+        .order-container {
+            background-color: #fff;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+            border-radius: 5px;
+            width: 300px;
+            text-align: left;
+        }
+
+        .order-container p {
+            margin: 10px 0;
+            font-size: 16px;
+            color: #333;
+        }
+
+        .order-container .label {
+            font-weight: bold;
+        }
+
+        form {
+            margin-top: 20px;
+        }
+
+        form input[type="text"], form select, form textarea {
+            width: 100%;
+            padding: 8px;
+            margin-bottom: 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            box-sizing: border-box;
+        }
+
+        form input[type="submit"] {
+            background-color:#FE5F1E;
+            color: white;
+            padding: 8px 16px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        form input[type="submit"]:hover {
+            background-color: #b23301;
+        }
+
+        form label {
+            display: block;
+            margin-bottom: 5px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Speak Your Order</h1>
+    <button onclick="startRecognition()">Start Speaking</button>
+    <div class="order-container">
+        <p id="result"></p>
+        <form id="orderForm" action="/submitOrder" method="POST">
+            <label for="size">Size:</label>
+            <input type="text" id="size" name="size">
+
+            <label for="type">Type:</label>
+            <input type="text" id="type" name="type">
+
+
+            <label for="veg">Veg:</label>
+            <input type="text" id="veg" name="veg">
+
+            <label for="item">Item:</label>
+            <input type="text" id="item" name="item">
+
+            <label for="extras">Extras:</label>
+            <textarea id="extras" name="extras"></textarea>
+
+            <label for="quantity">Quantity:</label>
+            <input type="text" id="quantity" name="quantity">
+
+           <input type="submit" value="Submit Order">
+        </form>
+    </div>
+
+    <script>
+        function startRecognition() {
+            if (!('webkitSpeechRecognition' in window)) {
+                alert('Your browser does not support speech recognition. Please use Google Chrome.');
+                return;
+            }
+            
+            const recognition = new (window.SpeechRecognition || window.webkitSpeechRecognition)();
+            recognition.lang = 'en-US';
+
+            recognition.onresult = (event) => {
+                const speechResult = event.results[0][0].transcript;
+                document.getElementById('result').innerText = 'You said: ' + speechResult;
+                
+                fetch('http://localhost:3300/order', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ input: speechResult })
+                })
+                .then(response => response.json())
+                .then(data => {
+                    console.log('Server response:', data);
+                    
+                    if (data && data.output) {
+                        // Parse the output string
+                        const parsedOutput = JSON.parse(data.output.replace(/'/g, '"'));
+
+                        // Populate form fields with parsed result
+                        document.getElementById('size').value = parsedOutput.size || '';
+                        document.getElementById('type').value = parsedOutput.type || 'Regular'; // Default to Regular if not specified
+                        document.getElementById('veg').value = parsedOutput.veg || '';
+                        document.getElementById('item').value = parsedOutput.item || '';
+                        document.getElementById('extras').value = parsedOutput.extras ? parsedOutput.extras.join(', ') : '';
+                        document.getElementById('quantity').value = parsedOutput.quantity || '';
+                    } else {
+                        document.getElementById('result').innerText += '\nInvalid response format';
+                    }
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    document.getElementById('result').innerText += '\nError: ' + error;
+                });
+            };
+
+            recognition.onerror = (event) => {
+                console.error('Error:', event.error);
+                document.getElementById('result').innerText += '\nSpeech recognition error: ' + event.error;
+            };
+
+            recognition.start();
+        }
+    </script>
+</body>
+</html>

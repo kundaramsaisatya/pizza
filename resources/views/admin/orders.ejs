@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Customer Orders</title>
+    <%- include('../partials/head') %>
+</head>
+<body>
+    <%- include('../partials/navbar') %>
+    
+   <section class="orders light-section">
+    <div class="container mx-auto px-16 py-10">
+        <h1 class="font-bold text-lg mb-4">All Orders</h1>
+        <% if (success_msg.length>0) { %>
+            <div id="success-alert" class="flex items-center bg-green-500 text-white text-sm font-bold px-4 py-3" role="alert">
+                <p> <%= success_msg %></p>
+            </div>
+        <% } %>
+        <table class="w-full table-auto bg-white">
+            <thead>
+                <th class="px-4 py-2 text-left">Orders</th>
+                <th class="px-4 py-2 text-left">Customer</th>
+                <th class="px-4 py-2 text-left">Price</th>
+                <th class="px-4 py-2 text-left">Address</th>
+                <th class="px-4 py-2 text-left">Phone</th>
+                <th class="px-4 py-2 text-left">Status</th>
+                <th class="px-4 py-2 text-left">Placed at</th>
+            </thead>
+            <tbody id="orderTableBody">
+    
+            </tbody>
+        </table>
+    </div>
+   </section>
+    
+    <%- include('../partials/script') %>
+</body>
+</html>

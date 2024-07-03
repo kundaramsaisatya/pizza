@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Order Ticket</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f0f0f0;
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+        }
+
+        .ticket {
+            background-color: #ffffff;
+            border: 2px solid #ff0000;
+            border-radius: 10px;
+            padding: 20px;
+            width: 300px;
+            text-align: left;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .ticket h1 {
+            font-size: 18px;
+            margin: 5px 0;
+            color: #333333;
+            font-weight: normal;
+        }
+
+        .ticket-item {
+            margin-bottom: 10px;
+        }
+
+        .ticket-item-label {
+            font-weight: bold;
+            display: inline-block;
+            width: 80px;
+            color: #4d06e7;
+        }
+
+        .ticket-item-value {
+            display: inline-block;
+            color: #f89000;
+        }
+    </style>
+</head>
+<body>
+    <div class="ticket">
+        <div class="ticket-item">
+            <span class="ticket-item-label">Size:</span>
+            <span class="ticket-item-value"><%= size %></span>
+        </div>
+        <div class="ticket-item">
+            <span class="ticket-item-label">Type:</span>
+            <span class="ticket-item-value"><%= type %></span>
+        </div>
+        <div class="ticket-item">
+            <span class="ticket-item-label">Extras:</span>
+            <span class="ticket-item-value"><%= extras %></span>
+        </div>
+        <div class="ticket-item">
+            <span class="ticket-item-label">Veg:</span>
+            <span class="ticket-item-value"><%= veg %></span>
+        </div>
+        <div class="ticket-item">
+            <span class="ticket-item-label">Item:</span>
+            <span class="ticket-item-value"><%= item %></span>
+        </div>
+        <div class="ticket-item">
+            <span class="ticket-item-label">Quantity:</span>
+            <span class="ticket-item-value"><%= quantity %></span>
+        </div>
+        <div class="ticket-item">
+            <span class="ticket-item-label">1 piece: </span>
+            <span class="ticket-item-value">₹ <%= randomNumber %></span>
+        </div>
+
+        <div>
+            <span>Total:</span>
+            <span><%= randomNumber * quantity %></span>
+        </div>
+        <button><a href="/clear-session">Go Home</a></button>
+    </div>
+</body>
+</html>

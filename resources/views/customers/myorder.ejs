@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <td class="border px-4 py-2">
+        Your Order ID: <a class="link" href="/myorder/<%= orderId  %>"><%= orderId%></a> <br> <hr>
+        <form class="mt-12" action="/myorders" method="POST" id="payment-form">
+           
+                <input class="border border-gray-400 p-2 w-1/2" type="text" placeholder="Address" name="address" required>
+                <input class="border border-gray-400 p-2 w-1/2 mt-4" type="text" placeholder="Phone Number" name="phone" required>
+                <div>
+                    <button class="btn-primary rounded-full px-6 py-2 text-white font-bold mt-6" type="submit">Order Now</button>
+                </div>
+        </form>
+    </td>
+</body>
+</html>

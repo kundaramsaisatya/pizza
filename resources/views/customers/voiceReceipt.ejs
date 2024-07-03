@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Order Details</title>
+    <style>
+        /* Your CSS styles */
+    </style>
+</head>
+<body>
+    <h1>Order Details</h1>
+    <div class="order-details">
+        <p><strong>Size:</strong> <%= order.size %></p>
+        <p><strong>Type:</strong> <%= order.type %></p>
+        <p><strong>Extras:</strong> <%= order.extras.join(', ') %></p>
+        <p><strong>Veg:</strong> <%= order.veg ? 'Yes' : 'No' %></p>
+        <p><strong>Item:</strong> <%= order.item %></p>
+        <p><strong>Quantity:</strong> <%= order.quantity %></p>
+        <p><strong>Single Item Price:</strong> <%= order.randomNumber %></p>
+        <p><strong>Total Price:</strong> ₹ <%= order.randomNumber * order.quantity %></p>
+    </div>
+    <button><a href="/clear-session">Go Home</a></button>
+</body>
+</html>
