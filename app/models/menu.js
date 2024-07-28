@@ -8,7 +8,8 @@ const menuSchema = new Schema(
         },
         image:{
             type: String,
-            required: true
+            required: true,
+            default: 'pizza.png'
         },
         price:{
             type: Number,
@@ -17,10 +18,6 @@ const menuSchema = new Schema(
         size:{
             type: String,
             required: true
-        },
-        image:{
-            type: String,
-            default: 'pizza.png'
         }
     }
 )

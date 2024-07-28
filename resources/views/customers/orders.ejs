@@ -62,10 +62,20 @@
                         
 
                         <td class="border px-4 py-2"><%= order.status %></td>
+                        <% if (order.status == 'completed') { %>
+                            <td class="border px-4 py-2">
+                                <a href="/customers/orders/receipt/<%= order._id %>">Click to download</a>
+                            </td>
+                        <% } 
+                         else { %>
+                            <td class="border px-4 py-2">
+                                Processing...
+                            </td>
+                            
+                            <% }%>
+                         
                         
-                        <td class="border px-4 py-2">
-                            <a href="/customers/orders/receipt/<%= order._id %>">Click to download</a>
-                        </td>
+                        
                         
                     </tr>
                  <% }) %>

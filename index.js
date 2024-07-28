@@ -12,7 +12,6 @@ const passport = require('passport');
 const Emitter = require("events");
 const bodyParser = require('body-parser');
 const cors = require('cors');
-
 // DB connection
 const url = process.env.MONGO_URI || 'mongodb://localhost:27017/pizza';
 mongoose.connect(url, { useNewUrlParser: true, useUnifiedTopology: true })

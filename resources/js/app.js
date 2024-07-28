@@ -3,6 +3,8 @@ const Noty = require("noty");
 import { initAdmin } from './admin';  // Adjust the path accordingly
 import moment from 'moment';
 
+// import { initStripe } from './stripe' //4th july
+
 let addToCart = document.querySelectorAll('.add-to-cart');
 let cartCounter = document.querySelector('#cartCounter');
 
@@ -79,29 +81,7 @@ function updateStatus(order) {
 
 updateStatus(order);
 
-//Ajax Call for Payment
-
-// const paymentForm = document.querySelector("#payment-form")
-// paymentForm.addEventListener('submit',(e)=>{
-//     e.preventDefault();
-//     let formData = new FormData(paymentForm);
-//     let formObject = {}
-
-//     for(let [key, value] of formData.entries()){
-//         formObject[key]=value
-//     }
-
-//     console.log(formObject)
-
-
-
-// })
-
-
-
-
-
-
+// initStripe()//4th july
 
 
 

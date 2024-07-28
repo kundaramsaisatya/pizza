@@ -28,7 +28,9 @@ function orderController() {
                 const eventEmitter = req.app.get('eventEmitter');
                 eventEmitter.emit('orderPlaced', placedOrder); // Ensure this emits correctly
 
-                return res.redirect('/customers/orders');
+                // return res.json({message : 'Order placed successfully'}); //3rd july
+
+                return res.redirect('/customers/orders'); //removed because we are using ajax call now
             })
             .catch(err => {
                 req.flash('error', 'Something went wrong');

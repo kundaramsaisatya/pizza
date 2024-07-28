@@ -92,6 +92,9 @@ var axios = __webpack_require__(/*! axios */ "./node_modules/axios/dist/browser/
 var Noty = __webpack_require__(/*! noty */ "./node_modules/noty/lib/noty.js");
  // Adjust the path accordingly
 
+
+// import { initStripe } from './stripe' //4th july
+
 var addToCart = document.querySelectorAll('.add-to-cart');
 var cartCounter = document.querySelector('#cartCounter');
 function updateCart(pizza) {
@@ -157,21 +160,7 @@ function updateStatus(order) {
 }
 updateStatus(order);
 
-//Ajax Call for Payment
-
-// const paymentForm = document.querySelector("#payment-form")
-// paymentForm.addEventListener('submit',(e)=>{
-//     e.preventDefault();
-//     let formData = new FormData(paymentForm);
-//     let formObject = {}
-
-//     for(let [key, value] of formData.entries()){
-//         formObject[key]=value
-//     }
-
-//     console.log(formObject)
-
-// })
+// initStripe()//4th july
 
 //Socket
 var socket = io();

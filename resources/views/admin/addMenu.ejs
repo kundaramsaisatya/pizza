@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pizza Order</title>
+    <%- include('../partials/head') %>
+    <!-- <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"> -->
+</head>
+<body>
+    <%- include('../partials/navbar') %>
+    <div class=" flex min-h-full flex-col justify-center px-6 py-12 lg:px-8">
+        <h1 class="text-2xl">Add New Pizza</h1>
+        <form action="/addorder" method="POST">
+            <div class="form-group">
+                <label for="name">Pizza Name</label>
+                <input type="text" class="form-control" id="name" name="name" placeholder="Enter pizza name" required>
+            </div>
+            <div class="form-group">
+                <label for="image">Pizza Image</label>
+                <input type="text" class="form-control" id="image" name="image" placeholder="Enter image URL">
+            </div>
+            <div class="form-group">
+                <label for="price">Price</label>
+                <input type="number" class="form-control" id="price" name="price" placeholder="Enter price" required>
+            </div>
+            <div class="form-group">
+                <label for="size">Size</label>
+                <select class="form-control" id="size" name="size" required>
+                    <option value="small">Small</option>
+                    <option value="medium">Medium</option>
+                    <option value="large">Large</option>
+                </select>
+            </div>
+            <button type="submit" class="btn btn-primary mt-2">Submit Order</button>
+        </form>
+    </div>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <%- include('../partials/script') %>
+
+</body>
+</html>

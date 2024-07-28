@@ -8,16 +8,16 @@
 </head>
 <body>
     <%- include('./partials/navbar') %>
-    <% if (success_msg.length>0) { %>
+    <% if (success_msg.length > 0) { %>
         <div id="success-alert" class="flex items-center bg-green-500 text-white text-sm font-bold px-4 py-3" role="alert">
-            <p> <%= success_msg %></p>
+            <p><%= success_msg %></p>
         </div>
     <% } %>
-    <section class="hero py-18">
+    <!-- <section class="hero py-18">
         <div class="container mx-auto flex items-center justify-between px-16 py-10">
-            <div class="">
+            <div>
                 <h6><em>Are you hungry?</em></h6>
-                <h1 class="text-3xl md:text-6xl font-bold">Dont Wait!!</h1>
+                <h1 class="text-3xl md:text-6xl font-bold">Don't Wait!!</h1>
                 <a href="#pizz">
                     <button class="btn-primary rounded-full px-6 py-2 text-white font-bold mt-4">Order now</button>
                 </a>                
@@ -26,13 +26,30 @@
                 <img src="/img/babaa.png" alt="">
             </div>
         </div>
+    </section> -->
+        <section class="hero relative overflow-hidden h-screen">
+        <div class="absolute inset-0 z-0">
+            <video autoplay muted loop class="w-full h-full object-cover">
+                <source src="/img/videoplayback (online-video-cutter.com).mp4" type="video/mp4">
+                Your browser does not support the video tag.
+            </video>
+        </div>
+        <div class="container mx-auto flex items-center justify-between px-16 py-10 relative z-10">
+            <div>
+                <h6 class="font-bold md:text-3xl pt-32"><em>Are you hungry?</em></h6>
+                <h1 class="text-3xl md:text-8xl font-bold text-white">Don't Wait!!</h1>
+                <a href="#pizz">
+                    <button class="btn-primary rounded-full px-6 py-2 text-white font-bold mt-4 md:text-3xl">Order now</button>
+                </a>
+            </div>
+        </div>
     </section>
     <section id="pizz" class="menu container mx-auto px-16 py-10">
-        <h1 class="text-xl font-bold mb-8 ">All Pizzas</h1>
+        <h1 class="text-xl font-bold mb-8">All Pizzas</h1>
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-x-16 gap-y-12">
-                <% pizzas.forEach(pizza => { %>
+            <% pizzas.forEach(pizza => { %>
                 <div class="w-full md:w-64">
-                    <img class="h-40 mx-auto mb-4" src="/img/<%= pizza.image %>" alt="pizaa">
+                    <img class="h-40 mx-auto mb-4" src="<%= pizza.image ? pizza.image : '/img/pizza.png' %>" alt="<%= pizza.name %>">
                     <div class="text-center">
                         <h2 class="mb-4 text-lg"><%= pizza.name %></h2>
                         <span class="size py-1 px-4 rounded-full uppercase text-xs"><%= pizza.size %></span>
@@ -42,14 +59,13 @@
                                 <span>+</span>
                                 <span class="ml-4">Add</span>
                             </button>
-                         </div>
-                     </div>
+                        </div>
+                    </div>
                 </div>
-                <% }) %>
-            </div>
+            <% }) %>
+        </div>
     </section>
 
     <%- include('./partials/script')%>
-
 </body>
 </html>
