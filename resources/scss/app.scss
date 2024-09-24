@@ -59,6 +59,16 @@ section.hero{
     }
 }
 
+.menus{
+    border-radius: 1rem;
+    transition: $smooth;
+    box-shadow: 0 25px 50px -12px rgb(0 0 0 / 0.25);
+    &:hover{
+        transform: scale(1.1);
+        // --tw-shadow-color: #059669
+    }
+}
+
 section.cart{
     background: $secondary;
 

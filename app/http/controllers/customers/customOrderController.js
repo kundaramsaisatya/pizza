@@ -16,7 +16,8 @@ function customOrderController() {
                     };
                 }
                 
-                const { size, type, veg, item, extras, quantity } = req.body;
+                const { item, quantity } = req.body;
+                //22/08/2024   const { size, type, veg, item, extras, quantity } = req.body;
                 let cart = req.session.cart;
                 
                 // Generate a unique ID for the new order
@@ -34,6 +35,7 @@ function customOrderController() {
                     // If it doesn't exist, add it to the cart with a new entry
                     cart.items[orderId] = {
                         item: req.body,
+                        //result, //22/08/2024
                         quantity: quantity,
                         customprice: customPrice,
                     };

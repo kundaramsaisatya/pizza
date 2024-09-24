@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -37,7 +38,7 @@
                         <td class="border px-4 py-2">
                             <ul>
                                 <% for (let key in order.items) { %>
-                                    <li><%= order.items[key].item.name?order.items[key].item.name: "Item: " + order.items[key].item.item + '\n Size: ' + order.items[key].item.size + "\n Type: " + order.items[key].item.type + "\n Extras: " + order.items[key].item.extras  %> - <%= order.items[key].qty?order.items[key].qty : order.items[key].item.quantity %> pcs</li>
+                                    <li><%= order.items[key].item.name ? order.items[key].item.name: "Custom Order: " + order.items[key].item.item  %> - <%= order.items[key].qty?order.items[key].qty : order.items[key].item.quantity %> pcs</li>
                                 <% } %>
                             </ul>
                         </td>
@@ -95,3 +96,4 @@
     <%- include('../partials/script') %>
 </body>
 </html>
+

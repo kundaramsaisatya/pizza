@@ -289,6 +289,15 @@ nav li a:hover {
   background: #b23301;
 }
 
+.menus {
+  border-radius: 1rem;
+  transition: all 0.3s ease-in-out;
+  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+}
+.menus:hover {
+  transform: scale(1.1);
+}
+
 section.cart {
   background: #F8F8F8;
 }

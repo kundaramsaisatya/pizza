@@ -1,9 +1,10 @@
-<!DOCTYPE html>
+<!-- <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Order Speech to JSON</title>
+
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -84,11 +85,64 @@
             display: block;
             margin-bottom: 5px;
         }
+
+        #loading {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(255, 255, 255, 0.8);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+        }
+
+        #spinner {
+            position: relative;
+            border: 16px solid #f3f3f3;
+            border-radius: 50%;
+            border-top: 16px solid #FE5F1E;
+            width: 120px;
+            height: 120px;
+            animation: spin 2s linear infinite;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        #percentage {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 18px;
+            font-weight: bold;
+            color: #333;
+            z-index: 1;
+            white-space: nowrap;
+        }
+        .but{
+            margin-left: 80px;
+            padding-left: 30px;
+            padding-right: 30px;
+            
+        }
     </style>
+
 </head>
-<body>
+<body>  
     <h1>Speak Your Order</h1>
-    <button onclick="startRecognition()">Start Speaking</button>
+    <div>
+        <div>
+            <button onclick="startRecognition()">Start Speaking</button><a href="/"><button class="but" >Go Back</button></a>
+        </div>
+    </div>
+    
     <div class="order-container">
         <p id="result"></p>
         <form id="orderForm" action="/submitOrder" method="POST">
@@ -97,7 +151,6 @@
 
             <label for="type">Type:</label>
             <input type="text" id="type" name="type">
-
 
             <label for="veg">Veg:</label>
             <input type="text" id="veg" name="veg">
@@ -111,8 +164,13 @@
             <label for="quantity">Quantity:</label>
             <input type="text" id="quantity" name="quantity">
 
-           <input type="submit" value="Submit Order">
+            <input type="submit" value="Submit Order">
         </form>
+    </div>
+
+    <div id="loading">
+        <div id="spinner"></div>
+        <div id="percentage">0%</div>
     </div>
 
     <script>
@@ -128,7 +186,20 @@
             recognition.onresult = (event) => {
                 const speechResult = event.results[0][0].transcript;
                 document.getElementById('result').innerText = 'You said: ' + speechResult;
-                
+
+                // Show loading indicator
+                document.getElementById('loading').style.display = 'flex';
+
+                let progress = 0;
+                const interval = setInterval(() => {
+                    if (progress < 99) {
+                        progress++;
+                        document.getElementById('percentage').innerText = progress + '%';
+                    } else {
+                        clearInterval(interval);
+                    }
+                }, 50);
+
                 fetch('http://localhost:3300/order', {
                     method: 'POST',
                     headers: {
@@ -139,7 +210,15 @@
                 .then(response => response.json())
                 .then(data => {
                     console.log('Server response:', data);
-                    
+
+                    // Complete the progress to 100%
+                    document.getElementById('percentage').innerText = '100%';
+
+                    // Hide loading indicator after a short delay
+                    setTimeout(() => {
+                        document.getElementById('loading').style.display = 'none';
+                    }, 500);
+
                     if (data && data.output) {
                         // Parse the output string
                         const parsedOutput = JSON.parse(data.output.replace(/'/g, '"'));
@@ -157,6 +236,8 @@
                 })
                 .catch(error => {
                     console.error('Error:', error);
+                    // Hide loading indicator
+                    document.getElementById('loading').style.display = 'none';
                     document.getElementById('result').innerText += '\nError: ' + error;
                 });
             };
@@ -164,6 +245,135 @@
             recognition.onerror = (event) => {
                 console.error('Error:', event.error);
                 document.getElementById('result').innerText += '\nSpeech recognition error: ' + event.error;
+            };
+
+            recognition.start();
+        }
+    </script>
+</body>
+</html> -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Order Speech to JSON</title>
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f7f7f7;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+        }
+
+        h1 {
+            color: #333;
+        }
+
+        button {
+            background-color: #FE5F1E;
+            color: white;
+            padding: 10px 20px;
+            margin: 20px 0;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #b23301;
+        }
+
+        .order-container {
+            background-color: #fff;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+            border-radius: 5px;
+            width: 300px;
+            text-align: left;
+        }
+
+        .order-container p {
+            margin: 10px 0;
+            font-size: 16px;
+            color: #333;
+        }
+
+        form {
+            margin-top: 20px;
+        }
+
+        form input[type="text"] {
+            width: 100%;
+            padding: 8px;
+            margin-bottom: 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            box-sizing: border-box;
+        }
+
+        form input[type="submit"] {
+            background-color:#FE5F1E;
+            color: white;
+            padding: 8px 16px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        form input[type="submit"]:hover {
+            background-color: #b23301;
+        }
+
+        .but{
+            margin-left: 80px;
+            padding-left: 30px;
+            padding-right: 30px;
+        }
+    </style>
+</head><body>  
+    <h1>Speak Your Order</h1>
+    <div>
+        <button onclick="startRecognition()">Start Speaking</button>
+        <a href="/"><button>Go Back</button></a>
+    </div>
+    
+    <div>
+        <form id="orderForm" action="/submitOrder" method="POST">
+            <label for="item">Result:</label>
+            <input type="text" id="item" name="item">
+
+            <label for="quantity">Quantity:</label>
+            <input type="text" id="quantity" name="quantity">
+
+            <input type="submit" value="Submit Order">
+        </form>
+    </div>
+
+    <script>
+        function startRecognition() {
+            if (!('webkitSpeechRecognition' in window)) {
+                alert('Your browser does not support speech recognition. Please use Google Chrome.');
+                return;
+            }
+            
+            const recognition = new (window.SpeechRecognition || window.webkitSpeechRecognition)();
+            recognition.lang = 'en-US';
+
+            recognition.onresult = (event) => {
+                const speechResult = event.results[0][0].transcript;
+                document.getElementById('item').value = speechResult;
+            };
+
+            recognition.onerror = (event) => {
+                console.error('Error:', event.error);
+                document.getElementById('item').value = 'Speech recognition error: ' + event.error;
             };
 
             recognition.start();

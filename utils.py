@@ -1,4 +1,4 @@
-import google.generativeai as genai
+import google.generativeai as genai 
 from config import API_KEY
 import re
 import json

@@ -1,5 +1,6 @@
 const Order = require('../../../models/order');
 const Menu = require('../../../models/menu');
+const moment = require('moment'); //23/08
 
 function orderController() {
     return {
@@ -11,7 +12,7 @@ function orderController() {
                     if (req.xhr) {
                         return res.json(orders);
                     } else {
-                        return res.render('admin/orders', { orders });
+                        return res.render('admin/orders', { orders,moment });
                     }
                 })
                 .catch(err => {

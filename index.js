@@ -17,6 +17,9 @@ const url = process.env.MONGO_URI || 'mongodb://localhost:27017/pizza';
 mongoose.connect(url, { useNewUrlParser: true, useUnifiedTopology: true })
     .then(() => console.log("Database Connected Successfully"))
     .catch(err => console.log('DB Connection Error:', err));
+// mongoose.connect(url)
+//     .then(() => console.log("Database Connected Successfully"))
+//     .catch(err => console.log('DB Connection Error:', err));
 
 const connection = mongoose.connection;
 
